@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 {% extends 'LoginApp/base.html' %}
+{%load staticfiles%}
 
 
 {% block body %}
 <div class="jumbotron" align="center">
-  <h1>Welocme to Profile Page</h1>
+    <h1>Welcome to Profile Page.</h1>
+    <h4>Please select from the below users to delete the user</h4>
+    <br>
+    <br>
 
+    <form method="post">
+        {% if err %}
+        <h5 style="color:red;">{{err}}</h5>
+        {% endif %}
 
+        {% csrf_token %}
+    <select name="uid" required>
+        <option value="Null">Please Select</option>
+        {% for user in allusers %}
+        <option value="{{user.id}}" >{{user.email}}</option>
+        {% endfor %}
+
+    </select>
+    <input type="submit" value="Delete User">
+    </form>
     </div>
 {% endblock %}

@@ -11,7 +11,16 @@ from .forms import SignupForm
 
 @login_required
 def homepage_view(request):
-    return render(request, "LoginApp/home.html")
+    userList = User.objects.values()
+    print(userList)
+    if request.method == "POST":
+        userid = request.POST.get("uid")
+        if userid == "Null":
+            return render(request, "LoginApp/home.html", {"allusers": userList, "err": "Please select a User First"})
+        user = User.objects.get(id=userid)
+        user.delete()
+        userList = User.objects.values()
+    return render(request, "LoginApp/home.html",{"allusers":userList})
 
 
 def login_view(request):
